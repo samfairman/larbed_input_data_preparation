@@ -21,15 +21,15 @@ int main()
     for ( long ix = -dim; ix != dim+1; ++ix )
         for ( long iy = -dim; iy != dim+1; ++iy )
         {
-            if ( ix == 0 && iy == 0 ) continue;
-            if ( ix == -dim_2 && iy == 0 ) continue;
-            if ( ix == dim_2 && iy == 0 ) continue;
-            if ( ix == 0 && iy == -dim_2 ) continue;
-            if ( ix == 0 && iy == dim_2 ) continue;
-            if ( ix == dim_2 && iy == dim_2 ) continue;
-            if ( ix == -dim_2 && iy == dim_2 ) continue;
-            if ( ix == dim_2 && iy == -dim_2 ) continue;
-            if ( ix == -dim_2 && iy == -dim_2 ) continue;
+            // if ( ix == 0 && iy == 0 ) continue;
+            // if ( ix == -dim_2 && iy == 0 ) continue;
+            // if ( ix == dim_2 && iy == 0 ) continue;
+            // if ( ix == 0 && iy == -dim_2 ) continue;
+            // if ( ix == 0 && iy == dim_2 ) continue;
+            // if ( ix == dim_2 && iy == dim_2 ) continue;
+            // if ( ix == -dim_2 && iy == dim_2 ) continue;
+            // if ( ix == dim_2 && iy == -dim_2 ) continue;
+            // if ( ix == -dim_2 && iy == -dim_2 ) continue;
 
             double const x = static_cast<double>(ix) * grid;
             double const y = static_cast<double>(iy) * grid;
