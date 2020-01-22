@@ -1,0 +1,5 @@
+package "pattern_loader"
+version "1.0"
+
+option "directory" d "pattern folder path" string yes
+option "patterns" p "pattern number" int yes

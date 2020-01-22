@@ -1,0 +1,40 @@
+#include <cuComplex.h>
+
+//cuDoubleComplex
+
+__global__ void
+zgemm(const cuDoubleComplex* __restrict__ A, const cuDoubleComplex* __restrict__ B, const cuDoubleComplex* __restrict__ C, int dim )
+{
+
+    cuDoubleComplex CValue = make_cuDoubleComplex(0.0, 0.0);
+
+    int Row = blockIdx.y*16 + threadIdx.y;
+    int Col = blockIdx.x*16 + threadIdx.x;
+
+    __shared__ cuDoubleComplex As[16][16];
+    __shared__ cuDoubleComplex Bs[16][16];
+
+    for (int k = 0; k < (16 + dim - 1)/16; k++)
+    {
+
+         if (k*16 + threadIdx.x < dim && Row < dim )
+           As[threadIdx.y][threadIdx.x] = A[Row*dim + k*16 + threadIdx.x];
+         else
+           As[threadIdx.y][threadIdx.x] = 0.0;
+
+         if (k*16 + threadIdx.y < BRows && Col < dim)
+           Bs[threadIdx.y][threadIdx.x] = B[(k*16 + threadIdx.y)*dim + Col];
+         else
+           Bs[threadIdx.y][threadIdx.x] = 0.0;
+
+         __syncthreads();
+
+         for (int n = 0; n < 16; ++n)
+           CValue += As[threadIdx.y][n] * Bs[n][threadIdx.x];
+
+         __syncthreads();
+    }
+
+    if (Row < dim && Col < dim)
+      C[((blockIdx.y * blockDim.y + threadIdx.y)*dim)+(blockIdx.x*blockDim.x)+threadIdx.x]=CValue;
+}
